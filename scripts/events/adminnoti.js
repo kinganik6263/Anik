@@ -5,7 +5,6 @@ module.exports.config = {
     "log:thread-admins",
     "log:thread-name",
     "log:user-nickname",
-    "log:thread-call",
     "log:thread-icon",
     "log:thread-color",
     "log:link-status",
@@ -73,23 +72,6 @@ module.exports.run = async function({ event, api, Threads, Users }) {
               return api.unsendMessage(info.messageID);
             }
           });
-        }
-        break;
-      }
-      case "log:thread-call": {
-        if (logMessageData.event === "গ্রুপ_কল_শুরু হয়েছে") {
-          const name = await Users.getNameUser(logMessageData.caller_id);
-          api.sendMessage(`[ GROUP UPDATE ]\n❯ ${name} STARTED A ${(logMessageData.video) ? 'VIDEO ' : ''}CALL.`, threadID);
-        } else if (logMessageData.event === "গ্রুপ_কল_শেষ") {
-          const callDuration = logMessageData.call_duration;
-          const hours = Math.floor(callDuration / 3600);
-          const minutes = Math.floor((callDuration - (hours * 3600)) / 60);
-          const seconds = callDuration - (hours * 3600) - (minutes * 60);
-          const timeFormat = `${hours}:${minutes}:${seconds}`;
-          api.sendMessage(`[ GROUP UPDATE ]\n❯ ${(logMessageData.video) ? 'Video' : ''} call has ended.\n❯ Call duration: ${timeFormat}`, threadID);
-        } else if (logMessageData.joining_user) {
-          const name = await Users.getNameUser(logMessageData.joining_user);
-          api.sendMessage(`❯ [ GROUP UPDATE ]\n❯ ${name} Joined the ${(logMessageData.group_call_type == '1') ? 'Video' : ''} call.`, threadID);
         }
         break;
       }
