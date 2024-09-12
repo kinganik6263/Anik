@@ -3,7 +3,7 @@ var lang = "bn"
 
 
 module.exports.config = {
-  name: "bot",
+  name: "bot" || "Robot",
   version: "0.0.2",
   permission: 0,
   prefix: false,
